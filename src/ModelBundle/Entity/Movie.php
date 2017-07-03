@@ -57,7 +57,7 @@ class Movie
 
     /**
      * @var MovieCategory
-     * @ORM\ManyToOne(targetEntity="ModelBundle\Entity\MovieCategory")
+     * @ORM\ManyToOne(targetEntity="ModelBundle\Entity\MovieCategory", inversedBy="movies")
      */
     private $category;
 
