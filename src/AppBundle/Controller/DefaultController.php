@@ -9,17 +9,62 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
+     * Page d'accueil pour les visiteurs
+     * liste de tous les films avec pagination
      * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
     {
 
-        $artistRepo = $this->getDoctrine()->getRepository("ModelBundle:Artist");
-        $artistList = $artistRepo->findAll();
+        return $this->render(
+            'AppBundle:Default:index.html.twig',
+            []
+        );
+    }
 
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+    /**
+     * Formulaire de recherche de films par
+     *  - titre
+     *  - acteur
+     *  - catégorie
+     *  - réalisateur
+     *
+     * @Route("/recherche" , name="search_page")
+     */
+    public function searchAction(){
+        return $this->render("AppBundle:Default:search.html.twig", []);
+    }
+
+    /**
+     * Détail d'un film
+     *
+     * @Route("/details/{id}", name="details_page")
+     */
+    public function detailsAction(){
+        return $this->render("AppBundle:Default:details.html.twig", []);
+    }
+
+    /**
+     * Inscription d'un client
+     * @Route("/inscription", name="register_page")
+     */
+    public function registerCustomerAction(){
+        return $this->render("AppBundle:Default:register.html.twig", []);
+    }
+
+    /**
+     * Identification des clients
+     * @Route("/login", name="customer_login_page")
+     */
+    public function customerLoginAction(){
+        return $this->render("AppBundle:Default:login.html.twig", []);
+    }
+
+    /**
+     * Identification des clients
+     * @Route("/liste-par-categorie/{id}", name="film-by-category")
+     */
+    public function byCaAction(){
+        return $this->render("AppBundle:Default:search-result.html.twig", []);
     }
 }

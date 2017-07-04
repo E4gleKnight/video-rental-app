@@ -1,0 +1,34 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Vidéo Passé Admin</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path('admin_due_films') }}">clients en retards</a></li>
+                <li><a href="{{ path('admin_language_home') }}">Les langues</a></li>
+                <li><a href="{{ path('admin_nationality_home') }}">Les nationalités</a></li>
+                <li><a href="{{ path('admin_category_home') }}">Les catégories</a></li>
+                <li><a href="{{ path('admin_actor_home') }}">Les acteurs</a></li>
+                <li><a href="{{ path('admin_film_home') }}">Les films</a></li>
+                <li><a href="{{ path('admin_press_title_home') }}">Les titres de presse</a></li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="#">Déconnexion</a></li>
+                {% endif %}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
