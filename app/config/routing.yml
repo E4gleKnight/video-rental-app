@@ -6,3 +6,15 @@ admin:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+customer_login_check:
+    path: /login-check
+
+customer_logout:
+    path: /logout
+
+admin_login_check:
+    path: /admin/login-check
+
+admin_logout:
+    path: /admin/logout

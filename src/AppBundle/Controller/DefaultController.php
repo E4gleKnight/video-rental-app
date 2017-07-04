@@ -57,7 +57,29 @@ class DefaultController extends Controller
      * @Route("/login", name="customer_login_page")
      */
     public function customerLoginAction(){
-        return $this->render("AppBundle:Default:login.html.twig", []);
+        $loginRoute = "customer_login_check";
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        return $this->render("AppBundle:Default:login.html.twig", [
+            "loginRoute" => $loginRoute,
+            'lastUserName' => $authenticationUtils->getLastUserName(),
+            'error' => $authenticationUtils->getLastAuthenticationError()
+        ]);
+    }
+
+    /**
+     * Identification des clients
+     * @Route("/login-admin", name="admin_login_page")
+     */
+    public function AdminLoginAction(){
+        $loginRoute = "admin_login_check";
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        return $this->render("AppBundle:Default:login.html.twig", [
+            "loginRoute" => $loginRoute,
+            'lastUserName' => $authenticationUtils->getLastUserName(),
+            'error' => $authenticationUtils->getLastAuthenticationError()
+        ]);
     }
 
     /**

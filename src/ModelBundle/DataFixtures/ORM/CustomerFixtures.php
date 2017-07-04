@@ -7,14 +7,12 @@ namespace ModelBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use ModelBundle\Entity\Artist;
 use ModelBundle\Entity\Customer;
 use Faker\Factory;
 
 
 class CustomerFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
-
     /**
      * Load data fixtures with the passed EntityManager
      *
@@ -24,14 +22,14 @@ class CustomerFixtures extends AbstractFixture implements OrderedFixtureInterfac
     {
 
         $faker = Factory::create();
-        $nbCustomers = 10;
+        $nbCustomers = 15;
 
         for($i = 1; $i <=$nbCustomers; $i++){
             $entity = new Customer();
             $entity->setName($faker->lastName)
                 ->setFirstName($faker->firstName)
                 ->setEmail($faker->email)
-                ->setPassword(sha1('123'));
+                ->setPlainPassword('123');
             $manager->persist($entity);
             $this->setReference("cutomer_".$i, $entity);
         }
@@ -48,5 +46,15 @@ class CustomerFixtures extends AbstractFixture implements OrderedFixtureInterfac
     public function getOrder()
     {
         return 7;
+    }
+
+    /**
+     * Sets the container.
+     *
+     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
     }
 }

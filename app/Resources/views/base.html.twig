@@ -33,6 +33,16 @@
             {% block header %}{% endblock %}
         </header>
         <section class="col-md-8">
+            {% if app.session.flashBag.has("info") %}
+                <div class="row">
+                    <div class="alert alert-info col-md-8 col-md-offset-2">
+                        {% for message in  app.session.flashBag.get("info") %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
             {% block body %}{% endblock %}
         </section>
 

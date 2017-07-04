@@ -4,14 +4,18 @@ namespace ModelBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Customer
  *
  * @ORM\Table(name="customers")
  * @ORM\Entity(repositoryClass="ModelBundle\Repository\CustomerRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
-class Customer
+class Customer implements \Serializable, UserInterface
 {
     /**
      * @var int
@@ -46,9 +50,20 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=45)
+     * @ORM\Column(name="password", type="string", length=128)
      */
     private $password;
+
+    /**
+     * @var string
+     * @ORM\Column(name="salt", type="string", length=45)
+     */
+    private $salt;
+
+    /**
+     * @var string
+     */
+    private $plainPassword;
 
     /**
      * @var ArrayCollection
@@ -173,6 +188,28 @@ class Customer
     {
         return $this->password;
     }
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     * @return Customer
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+
+
     /**
      * Constructor
      */
@@ -283,5 +320,112 @@ class Customer
     public function getReviews()
     {
         return $this->reviews;
+    }
+
+
+
+    /**
+     * String representation of object
+     * @link http://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     * @since 5.1.0
+     */
+    public function serialize()
+    {
+        return serialize(
+            [
+                $this->id,
+                $this->email,
+                $this->name
+            ]
+        );
+    }
+
+    /**
+     * Constructs the object
+     * @link http://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     * @since 5.1.0
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->name,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
+    }
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
+     */
+    public function getRoles()
+    {
+        return ['ROLE_CUSTOMER'];
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     *
+     * @return Customer
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
     }
 }
