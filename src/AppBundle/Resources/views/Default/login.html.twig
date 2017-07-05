@@ -2,8 +2,6 @@
 
 {% block body %}
 
-    {{ dump(error) }}
-
     {% if error.message is defined %}
         <div class="alert alert-danger">
             {{ error.message }}
