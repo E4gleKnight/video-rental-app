@@ -2,4 +2,47 @@
 
 {% block body %}
 
+    <h1>Liste des acteurs</h1>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Sexe</th>
+                    <th>Nationnalité</th>
+                    <th>Date de naissance</th>
+                    <th>Action</th>
+                </tr>
+                {% for artist in artists %}
+                    <tr>
+                        <td>{{ artist.name }}</td>
+                        <td>{{ artist.firstName }}</td>
+                        <td>{{ artist.gender }}</td>
+                        <td>{{ artist.nationality.nationality }}</td>
+                        <td>{{ artist.birthDate | date('d/m/Y') }}</td>
+                        <td>
+                            <div class="col-md-6">
+                                <a href="{{ path('admin_actor_edit', {'id': artist.id }) }}" class="btn btn-success">Modifier</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="" class="btn btn-danger glyphicon glyphicon-trash"></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block aside %}
+    <h1>Panneau de configuration</h1>
+    <div>
+        <a href="{{ path('admin_actor_new') }}" class="btn btn-primary">
+            Ajouter un acteur
+        </a>
+    </div>
 {% endblock %}

@@ -2,5 +2,32 @@
 
 {% block body %}
 
+    <h1>Nouvel artiste</h1>
+
+    {{ form_row(artistForm.firstName) }}
+
+    {{ form_row(artistForm.name) }}
+
+    {{ form_row(artistForm.gender) }}
+
+    {{ form_row(artistForm.birthDate) }}
+
+    {{ form_row(artistForm.nationality) }}
+
+    {{ form_row(artistForm.moviesActedIn) }}
+
+    <a href="#" id="add_movie" class="btn btn-default add-btn">Ajouter un film</a>
+
+    {{ form_rest(artistForm) }}
+
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('public/js/formActor.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('public/css/style.css') }}">
+{% endblock %}

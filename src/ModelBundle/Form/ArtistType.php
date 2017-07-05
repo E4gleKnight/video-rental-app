@@ -2,7 +2,13 @@
 
 namespace ModelBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,17 +21,67 @@ class ArtistType extends AbstractType
     {
         $builder
             ->add(
-                'firstName')
+                'firstName',
+                TextType::class,
+                [
+                    "label" => "Prénom"
+                ])
             ->add(
-                'name')
+                'name',
+                TextType::class,
+                [
+                    "label" => "Nom"
+                ])
             ->add(
-                'gender')
+                'gender',
+                ChoiceType::class,
+                [
+                    "label" => "Sexe",
+                    "choices" => [
+                        "Homme" => "H",
+                        "Femme" => "F",
+                        "Neutre" => "N"
+                    ]
+                ])
             ->add(
-                'birthDate')
+                'birthDate',
+                DateType::class,
+                [
+                    "label" => "Date de naissance",
+                    "widget" => "single_text"
+                ])
             ->add(
-                'nationality')
+                'nationality',
+                EntityType::class,
+                [
+                    "class" => "ModelBundle\Entity\Nationality",
+                    "choice_label" => "nationality",
+                    "label" => "Nationalité"
+                ])
             ->add(
-                'moviesActedIn');
+                'moviesActedIn',
+                CollectionType::class,
+                [
+                    "entry_type" => EntityType::class,
+                    "entry_options" =>
+                        [
+                            "class" => "ModelBundle\Entity\Movie",
+                            "label" => " ",
+                            "choice_label" => "title"
+                        ],
+                    "allow_add" => true,
+                    "allow_delete" => true,
+                    "label" => "Acteurs"
+                ])
+            ->add(
+                'submit',
+                SubmitType::class,
+                [
+                    'label' => 'Valider',
+                    'attr' => [
+                        "class" => "btn-primary"
+                    ]
+                ]);
     }
     
     /**

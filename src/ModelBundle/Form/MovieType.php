@@ -77,17 +77,6 @@ class MovieType extends AbstractType
                     "placeholder" => "Choisissez un réalisateur",
                     "label" => "Réalisateur"
                 ])
-            /*->add(
-                'actors',
-                EntityType::class,
-                [
-                    "class" => "ModelBundle\Entity\Artist",
-                    "label" => "Acteur",
-                    "choice_label" => function($actor) {
-                        return $actor->getFirstName()." ".$actor->getName();
-                    },
-                    "multiple" => true
-                ])*/
             ->add(
                 'actors',
                 CollectionType::class,

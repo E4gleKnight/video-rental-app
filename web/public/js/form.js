@@ -4,21 +4,21 @@
 
 
 $(document).ready(function() {
-    var $container = $('div#modelbundle_movie_actors');
+    var $containerActor = $('div#modelbundle_movie_actors');
 
-    var index = $container.find(':input').length;
+    var indexActor = $containerActor.find(':input').length;
 
     $('#add_actor').click(function(e) {
-        addActor($container);
+        addActor($containerActor);
 
         e.preventDefault(); // évite qu'un # apparaisse dans l'URL
         return false;
     });
 
-    if (index == 0) {
-        addActor($container);
+    if (indexActor == 0) {
+        addActor($containerActor);
     } else {
-        $container.children('div').each(function() {
+        $containerActor.children('div').each(function() {
             addDeleteLink($(this));
         });
     }
@@ -26,8 +26,8 @@ $(document).ready(function() {
     function addActor($container) {
 
         var template = $container.attr('data-prototype')
-            .replace(/__name__label__/g, 'Acteur n°' + (index+1))
-            .replace(/__name__/g,        index)
+            .replace(/__name__label__/g, 'Acteur n°' + (indexActor+1))
+            .replace(/__name__/g,        indexActor)
         ;
 
         var $prototype = $(template);
@@ -36,7 +36,7 @@ $(document).ready(function() {
 
         $container.append($prototype);
 
-        index++;
+        indexActor++;
     }
 
     function addDeleteLink($prototype) {
@@ -46,9 +46,9 @@ $(document).ready(function() {
         $prototype.append($deleteLink);
 
         $deleteLink.click(function(e) {
-            if (index != 1) {
+            if (indexActor != 1) {
                 $prototype.remove();
-                index--;
+                indexActor--;
             }
 
             e.preventDefault(); // évite qu'un # apparaisse dans l'URL
