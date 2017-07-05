@@ -2,6 +2,7 @@
 
 namespace ModelBundle\Entity;
 
+use Doctrine\DBAL\Types\BooleanType;
 use Doctrine\ORM\Mapping as ORM;
 use ModelBundle\Entity\Customer;
 use ModelBundle\Entity\Movie;
@@ -217,5 +218,17 @@ class Rental
     public function getMovie()
     {
         return $this->movie;
+    }
+
+    /**
+     *
+     * @return bool
+     */
+    public function isLate(){
+        if($this->dueDate < new \DateTime('today') ) {
+            return true;
+        }else{
+            return false;
+        }
     }
 }
