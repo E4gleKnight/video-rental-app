@@ -2,4 +2,44 @@
 
 {% block body %}
 
+    <h1>Liste des films</h1>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>Titre</th>
+                    <th>Date de sortie</th>
+                    <th>Durée</th>
+                    <th>Langue</th>
+                    <th>Nationnalité</th>
+                    <th>Catégorie</th>
+                    <th>Réalisateur</th>
+                    <th>Action</th>
+                </tr>
+                {% for movie in movies %}
+                    <tr>
+                        <td>{{ movie.title }}</td>
+                        <td>{{ movie.releaseDate | date('d/m/Y') }}</td>
+                        <td>{{ movie.duration }}</td>
+                        <td>{{ movie.language.language }}</td>
+                        <td>{{ movie.nationality.nationality }}</td>
+                        <td>{{ movie.category.category }}</td>
+                        <td>{{ movie.director.firstName }} {{ movie.director.name }}</td>
+                        <td><a href="{{ path('admin_film_edit', {'id': movie.id }) }}" class="btn btn-success">Modifier</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block aside %}
+    <h1>Panneau de configuration</h1>
+    <div>
+        <button class="btn btn-primary">
+            Ajouter film
+        </button>
+    </div>
 {% endblock %}

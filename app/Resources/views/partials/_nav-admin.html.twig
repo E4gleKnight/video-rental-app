@@ -26,7 +26,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 {% if is_granted('ROLE_ADMIN') %}
-                    <li><a href="#">Déconnexion</a></li>
+                    <li><a href="{{ path('admin_logout') }}">Déconnexion</a></li>
                 {% endif %}
             </ul>
         </div><!-- /.navbar-collapse -->

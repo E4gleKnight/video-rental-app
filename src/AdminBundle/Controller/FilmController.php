@@ -17,7 +17,13 @@ class FilmController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('AdminBundle:Film:index.html.twig');
+        $repo = $this->getDoctrine()->getRepository('ModelBundle:Movie');
+
+        $movies = $repo->findAll();
+
+        return $this->render('AdminBundle:Film:index.html.twig', [
+            "movies" => $movies
+        ]);
     }
 
     /**
