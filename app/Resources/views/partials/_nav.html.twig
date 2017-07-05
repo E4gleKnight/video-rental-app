@@ -25,7 +25,7 @@
                     <li><a href="{{ path('register_page') }}">Inscription</a></li>
 
                 {% else %}
-                    <li><a href="#">Déconnexion</a></li>
+                    <li><a href="{{ path('customer_logout') }}">Déconnexion</a></li>
                     <li><a href="{{ path('customer_account') }}">Mon compte</a></li>
                 {% endif %}
             </ul>

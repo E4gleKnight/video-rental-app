@@ -2,6 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use ModelBundle\Entity\Customer;
+use ModelBundle\Entity\Movie;
+use ModelBundle\Form\CustomerType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +19,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $movieRepo = $this->getDoctrine()->getRepository('ModelBundle:Movie');
+        $movieList = $movieRepo->findAll();
         return $this->render(
             'AppBundle:Default:index.html.twig',
-            []
+            ["movieList"=>$movieList]
         );
     }
 
@@ -30,7 +36,8 @@ class DefaultController extends Controller
      *
      * @Route("/recherche" , name="search_page")
      */
-    public function searchAction(){
+    public function searchAction()
+    {
         return $this->render("AppBundle:Default:search.html.twig", []);
     }
 
@@ -39,7 +46,8 @@ class DefaultController extends Controller
      *
      * @Route("/details/{id}", name="details_page")
      */
-    public function detailsAction(){
+    public function detailsAction()
+    {
         return $this->render("AppBundle:Default:details.html.twig", []);
     }
 
@@ -47,15 +55,45 @@ class DefaultController extends Controller
      * Inscription d'un client
      * @Route("/inscription", name="register_page")
      */
-    public function registerCustomerAction(){
-        return $this->render("AppBundle:Default:register.html.twig", []);
+
+    public function registerCustomerAction(Request $request)
+    {
+        //Instance de l'entité Customer
+        $customer = new Customer();
+        //Création du formulaire
+        $form = $this->createForm(
+            CustomerType::class,
+            $customer,
+            [
+                "method" => "post"
+            ]
+        );
+        //Traitement du formulaire
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($customer);
+                $em->flush();
+
+                $this->addFlash("info", "Votre Inscription a bien été prise en compte.");
+                return $this->redirectToRoute("homepage");
+
+            } catch (UniqueConstraintViolationException $ex) {
+                $this->addFlash("danger", "Il existe déjà un utilisateur avec cet identifiant");
+            }
+        }
+        //Affichage de la vue avec le formulaire
+        return $this->render("AppBundle:Default:register.html.twig",
+            ["customerForm" => $form->createView()]);
     }
 
     /**
      * Identification des clients
      * @Route("/login", name="customer_login_page")
      */
-    public function customerLoginAction(){
+    public function customerLoginAction()
+    {
         $loginRoute = "customer_login_check";
         $authenticationUtils = $this->get('security.authentication_utils');
 
@@ -70,7 +108,8 @@ class DefaultController extends Controller
      * Identification des clients
      * @Route("/login-admin", name="admin_login_page")
      */
-    public function AdminLoginAction(){
+    public function AdminLoginAction()
+    {
         $loginRoute = "admin_login_check";
         $authenticationUtils = $this->get('security.authentication_utils');
 
@@ -85,7 +124,8 @@ class DefaultController extends Controller
      * Identification des clients
      * @Route("/liste-par-categorie/{id}", name="film-by-category")
      */
-    public function byCategoryAction(){
+    public function byCategoryAction()
+    {
         return $this->render("AppBundle:Default:search-result.html.twig", []);
     }
 }

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Customer
@@ -28,13 +29,20 @@ class Customer implements \Serializable, UserInterface
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Le nom ne peut être vide")
+     * @Assert\Length(max="45",min="2",
+     * minMessage="Votre nom doit faire plus de {{ limit }} caractères!",
+     * maxMessage="Votre nom doit faire moins de {{ limit }} caractères!")
      * @ORM\Column(name="firstName", type="string", length=50)
      */
     private $firstName;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Le nom ne peut être vide")
+     * @Assert\Length(max="45",min="2",
+     * minMessage="Votre prénom doit faire plus de {{ limit }} caractères!",
+     * maxMessage="Votre prénom doit faire moins de {{ limit }} caractères!")
      *
      * @ORM\Column(name="name", type="string", length=50)
      */
@@ -42,7 +50,9 @@ class Customer implements \Serializable, UserInterface
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Vous devez saisir une adresse mail.")
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.")
      * @ORM\Column(name="email", type="string", length=80, unique=true)
      */
     private $email;
@@ -61,6 +71,8 @@ class Customer implements \Serializable, UserInterface
     private $salt;
 
     /**
+     *  @Assert\Length(min="8",
+     *  minMessage="Votre nom doit faire plus de {{ limit }} caractères!")
      * @var string
      */
     private $plainPassword;
