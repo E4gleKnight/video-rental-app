@@ -27,7 +27,7 @@
                                 <a href="{{ path('admin_actor_edit', {'id': artist.id }) }}" class="btn btn-success">Modifier</a>
                             </div>
                             <div class="col-md-6">
-                                <a href="" class="btn btn-danger glyphicon glyphicon-trash"></a>
+                                <a href="{{ path('admin_actor_delete', {'id': artist.id }) }}" class="btn btn-danger glyphicon glyphicon-trash"></a>
                             </div>
                         </td>
                     </tr>

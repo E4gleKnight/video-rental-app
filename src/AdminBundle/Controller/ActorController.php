@@ -7,6 +7,7 @@ use ModelBundle\Entity\Artist;
 use ModelBundle\Form\ArtistType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -81,9 +82,24 @@ class ActorController extends Controller
 
     /**
      *
-     * @Route("/suppression/{id}", name="admin_language_delete")
+     * @Route("/suppression/{id}", name="admin_actor_delete")
      */
-    public function deleteAction(){
+    public function deleteAction($id)
+    {
+
+        $repo = $this->getDoctrine()->getRepository('ModelBundle:Artist');
+
+        $artist = $repo->findOneById($id);
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($artist);
+            $em->flush();
+
+            $this->addFlash('info', 'L\'acteur a bien été supprimé');
+        } catch (Exception $e) {
+            $this->addFlash('danger', 'L\'acteur n\'a pas été supprimé');
+        }
         return $this->redirectToRoute("admin_actor_home");
     }
 }
