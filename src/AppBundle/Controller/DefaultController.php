@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use ModelBundle\Entity\Movie;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,9 +39,47 @@ class DefaultController extends Controller
      * Détail d'un film
      *
      * @Route("/details/{id}", name="details_page")
+     * @param Movie $movie
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function detailsAction(){
-        return $this->render("AppBundle:Default:details.html.twig", []);
+    public function detailsAction(Movie $movie){
+
+        //Conversion date en français
+        $moisFr = [
+            "",
+            "janvier",
+            "février",
+            "mars",
+            "avril",
+            "mai",
+            "juin",
+            "juillet",
+            "août",
+            "septembre",
+            "octobre",
+            "novembre",
+            "décembre"
+        ];
+
+        $dateSortie = $movie->getReleaseDate()->format('Y m d');
+        list($year,$month,$day)=explode(" ", $dateSortie);
+        $dateSortie = $day.' '.$moisFr[$month].' '.$year;
+
+        //Conversion durée film de minutes en heures et minutes
+        $dureeFilm = $movie->getDuration();
+        $heures = intval($dureeFilm/60);
+        $minutes = $dureeFilm % 60;
+
+        $dureeFilm= $heures.'h'.$minutes;
+
+
+        return $this->render("AppBundle:Default:details.html.twig",
+            [
+                "movie" => $movie,
+                "dateSortie" => $dateSortie,
+                "dureeFilm" => $dureeFilm
+            ]
+        );
     }
 
     /**

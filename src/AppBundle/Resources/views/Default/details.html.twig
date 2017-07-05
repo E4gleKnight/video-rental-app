@@ -1,6 +1,17 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
+    <h1>Détails du film</h1>
+
+    <h2>{{ movie.title }}</h2>
+    <p>Date de sortie : {{ dateSortie }}</p>
+    <p>Durée : {{ dureeFilm }} min</p>
+    <p>Genre : {{ movie.category.category }}</p>
+
 
 {% endblock %}
+
+
+
 
