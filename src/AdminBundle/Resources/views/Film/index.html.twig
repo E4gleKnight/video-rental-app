@@ -22,10 +22,10 @@
                         <td>{{ movie.title }}</td>
                         <td>{{ movie.releaseDate | date('d/m/Y') }}</td>
                         <td>{{ movie.duration }}</td>
-                        <td>{{ movie.language.language }}</td>
-                        <td>{{ movie.nationality.nationality }}</td>
-                        <td>{{ movie.category.category }}</td>
-                        <td>{{ movie.director.firstName }} {{ movie.director.name }}</td>
+                        <td>{{ movie.language }}</td>
+                        <td>{{ movie.nationality }}</td>
+                        <td>{{ movie.category }}</td>
+                        <td>{{ movie.directorFirstName }} {{ movie.directorName }}</td>
                         <td><a href="{{ path('admin_film_edit', {'id': movie.id }) }}" class="btn btn-success">Modifier</a></td>
                     </tr>
                 {% endfor %}

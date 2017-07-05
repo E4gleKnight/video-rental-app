@@ -10,4 +10,19 @@ namespace ModelBundle\Repository;
  */
 class MovieRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAllMovies() {
+        $qb = $this->createQueryBuilder('m')
+            ->select(['m.id', 'm.title', 'm.duration', 'm.releaseDate',
+                'l.language',
+                'n.nationality',
+                'c.category',
+                'd.name as directorName', 'd.firstName as directorFirstName'])
+            ->innerJoin('m.category', 'c')
+            ->innerJoin('m.director', 'd')
+            ->innerJoin('m.language', 'l')
+            ->innerJoin('m.nationality', 'n')
+            ->getQuery();
+
+        return $qb->getArrayResult();
+    }
 }

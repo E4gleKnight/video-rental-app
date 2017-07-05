@@ -19,7 +19,7 @@ class FilmController extends Controller
     {
         $repo = $this->getDoctrine()->getRepository('ModelBundle:Movie');
 
-        $movies = $repo->findAll();
+        $movies = $repo->getAllMovies();
 
         return $this->render('AdminBundle:Film:index.html.twig', [
             "movies" => $movies
