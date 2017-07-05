@@ -35,7 +35,8 @@ class MovieType extends AbstractType
                 'releaseDate',
                 DateType::class,
                 [
-                    "label" => "Date de sortie"
+                    "label" => "Date de sortie",
+                    "widget" => "single_text"
                 ])
             ->add(
                 'language',
@@ -69,7 +70,9 @@ class MovieType extends AbstractType
                 EntityType::class,
                 [
                     "class" => "ModelBundle\Entity\Artist",
-                    "choice_label" => "name",
+                    "choice_label" => function($director) {
+                        return $director->getFirstName()." ".$director->getName();
+                    },
                     "placeholder" => "Choisissez un réalisateur",
                     "label" => "Réalisateur"
                 ])
@@ -79,7 +82,9 @@ class MovieType extends AbstractType
                 [
                     "class" => "ModelBundle\Entity\Artist",
                     "label" => "Acteur",
-                    "choice_label" => "name",
+                    "choice_label" => function($actor) {
+                        return $actor->getFirstName()." ".$actor->getName();
+                    },
                     "multiple" => true
                 ])
             ->add(
