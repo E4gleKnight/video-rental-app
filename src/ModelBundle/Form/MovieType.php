@@ -4,6 +4,7 @@ namespace ModelBundle\Form;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -76,7 +77,7 @@ class MovieType extends AbstractType
                     "placeholder" => "Choisissez un réalisateur",
                     "label" => "Réalisateur"
                 ])
-            ->add(
+            /*->add(
                 'actors',
                 EntityType::class,
                 [
@@ -86,12 +87,32 @@ class MovieType extends AbstractType
                         return $actor->getFirstName()." ".$actor->getName();
                     },
                     "multiple" => true
+                ])*/
+            ->add(
+                'actors',
+                CollectionType::class,
+                [
+                    "entry_type" => EntityType::class,
+                    "entry_options" =>
+                        [
+                            "class" => "ModelBundle\Entity\Artist",
+                            "label" => " ",
+                            "choice_label" => function($actor) {
+                                return $actor->getFirstName()." ".$actor->getName();
+                            }
+                        ],
+                    "allow_add" => true,
+                    "allow_delete" => true,
+                    "label" => "Acteurs"
                 ])
             ->add(
                 'submit',
                 SubmitType::class,
                 [
-                    'label' => 'Valider'
+                    'label' => 'Valider',
+                    'attr' => [
+                        "class" => "btn-primary"
+                    ]
                 ]);
     }
     

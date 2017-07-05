@@ -4,6 +4,7 @@ namespace ModelBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Movie
@@ -25,6 +26,9 @@ class Movie
     /**
      * @var string
      *
+     * @Assert\NotBlank(
+     *     message="Vous devez entrer un titre"
+     * )
      * @ORM\Column(name="title", type="string", length=80)
      */
     private $title;
@@ -32,6 +36,9 @@ class Movie
     /**
      * @var int
      *
+     * @Assert\NotBlank(
+     *     message="Vous devez entrer une durée"
+     * )
      * @ORM\Column(name="duration", type="integer")
      */
     private $duration;
@@ -39,36 +46,65 @@ class Movie
     /**
      * @var \DateTime
      *
+     * @Assert\NotBlank(
+     *     message="Vous devez entrer une date de sortie"
+     * )
+     *
      * @ORM\Column(name="releaseDate", type="date")
      */
     private $releaseDate;
 
     /**
      * @var \ModelBundle\Entity\Language
+     *
+     * @Assert\NotBlank(
+     *     message="Vous devez sélectionner une langue"
+     * )
+     *
      * @ORM\ManyToOne(targetEntity="ModelBundle\Entity\Language")
      */
     private $language;
 
     /**
      * @var Nationality
+     *
+     * @Assert\NotBlank(
+     *     message="Vous devez sélectionner une nationalité"
+     * )
+     *
      * @ORM\ManyToOne(targetEntity="ModelBundle\Entity\Nationality")
      */
     private $nationality;
 
     /**
      * @var MovieCategory
+     *
+     * @Assert\NotBlank(
+     *     message="Vous devez sélectionner une catégorie"
+     * )
+     *
      * @ORM\ManyToOne(targetEntity="ModelBundle\Entity\MovieCategory", inversedBy="movies")
      */
     private $category;
 
     /**
      * @var Artist
+     *
+     * @Assert\NotBlank(
+     *     message="Vous devez sélectionner un réalisateur"
+     * )
+     *
      * @ORM\ManyToOne(targetEntity="ModelBundle\Entity\Artist", inversedBy="moviesDirected")
      */
     private $director;
 
     /**
      * @var ArrayCollection
+     *
+     * @Assert\NotBlank(
+     *     message="Vous devez ajouter au moins un acteur"
+     * )
+     *
      * @ORM\ManyToMany(targetEntity="ModelBundle\Entity\Artist", inversedBy="moviesActedIn")
      */
     private $actors;
