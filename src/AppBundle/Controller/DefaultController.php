@@ -2,8 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use ModelBundle\Entity\Artist;
+use ModelBundle\Entity\Movie;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Article;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
@@ -39,8 +42,20 @@ class DefaultController extends Controller
      *
      * @Route("/details/{id}", name="details_page")
      */
-    public function detailsAction(){
-        return $this->render("AppBundle:Default:details.html.twig", []);
+    public function detailsAction(Movie $movie){
+
+        $movieRepo = $this->getDoctrine()->getRepository('ModelBundle:Movie');
+
+        $moviesList = $movieRepo->getAllMoviesForArtistId($movie);
+
+
+        return $this->render("AppBundle:Default:details.html.twig",
+            [
+                "movie" => $movie,
+                "artistList" => $movie->getActors(),
+                "moviesList" => $moviesList
+
+            ]);
     }
 
     /**

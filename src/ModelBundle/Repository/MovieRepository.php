@@ -2,6 +2,8 @@
 
 namespace ModelBundle\Repository;
 
+use ModelBundle\Entity\Movie;
+
 /**
  * MovieRepository
  *
@@ -10,4 +12,38 @@ namespace ModelBundle\Repository;
  */
 class MovieRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAllMoviesForArtistId(Movie $movie){
+
+        $actorList = $this->getActorsIdFRomMovie($movie);
+
+
+        $qb = $this->createQueryBuilder('m')
+            ->select('m')
+            ->innerJoin('m.actors', 'a')
+            ->where('m.id != :movieId')
+            ->andWhere( 'a.id IN (:actorList)');
+
+        $query = $qb->getQuery();
+
+        $query->setParameter('actorList', $actorList, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
+        $query->setParameter('movieId', $movie->getId());
+
+        return $query->getResult();
+    }
+
+    /**
+     * @param Movie $movie
+     * @return array
+     */
+    private function getActorsIdFRomMovie(Movie $movie)
+    {
+        $actorsList = array_map(
+            function ($item) {
+                return $item->getId();
+            },
+            $movie->getActors()->toArray()
+        );
+
+        return $actorsList;
+    }
 }
