@@ -26,8 +26,14 @@ class HomeController extends Controller
      * @Route("/films-en-retard", name="admin_due_films")
      */
     public function showDueFilmsAction(){
-        return $this->render('AdminBundle:Home:due-films.html.twig');
+        $lateList=$this->getDoctrine()->getRepository("ModelBundle:Rental");
+        $lateList->findAll();
+        return $this->render('AdminBundle:Home:due-films.html.twig',[
+            "lateList"=>$lateList
+        ]);
     }
+
+
 
 
 }

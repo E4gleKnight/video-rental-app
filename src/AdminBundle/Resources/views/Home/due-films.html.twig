@@ -1,6 +1,13 @@
 {% extends 'admin.html.twig' %}
 
 {% block body %}
+    <h1>Liste des utilisateurs devant rendre des films </h1>
+    <ul>
+        {% for rental in lateList %}
+        <li>{{ rental }} </li>
+        {% endfor %}
+    </ul>
+    
 
 {% endblock %}
 
