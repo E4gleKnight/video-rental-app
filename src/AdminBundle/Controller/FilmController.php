@@ -17,7 +17,9 @@ class FilmController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('AdminBundle:Film:index.html.twig');
+        return $this->render('AdminBundle:Film:index.html.twig',[
+
+        ]);
     }
 
     /**
@@ -26,7 +28,9 @@ class FilmController extends Controller
      * @Route("/formulaire", name="admin_film_new")
      */
     public function formAction(){
-        return $this->render('AdminBundle:Film:form.html.twig');
+        return $this->render('AdminBundle:Film:form.html.twig',[
+
+        ]);
     }
 
     /**
