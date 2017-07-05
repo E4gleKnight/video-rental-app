@@ -85,7 +85,7 @@ class DefaultController extends Controller
      * Identification des clients
      * @Route("/liste-par-categorie/{id}", name="film-by-category")
      */
-    public function byCaAction(){
+    public function byCategoryAction(){
         return $this->render("AppBundle:Default:search-result.html.twig", []);
     }
 }
