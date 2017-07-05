@@ -7,6 +7,7 @@ use ModelBundle\Entity\Movie;
 use ModelBundle\Form\MovieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -84,9 +85,24 @@ class FilmController extends Controller
 
     /**
      *
-     * @Route("/suppression/{id}", name="admin_language_delete")
+     * @Route("/suppression/{id}", name="admin_film_delete")
      */
-    public function deleteAction(){
+    public function deleteAction($id){
+
+        $repo = $this->getDoctrine()->getRepository('ModelBundle:Movie');
+
+        $movie = $repo->findOneById($id);
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($movie);
+            $em->flush();
+
+            $this->addFlash('info', 'Le film a bien été supprimé');
+        } catch (Exception $e) {
+            $this->addFlash('danger', 'Le film n\'a pas été supprimé');
+        }
+
         return $this->redirectToRoute("admin_film_home");
     }
 }

@@ -26,7 +26,14 @@
                         <td>{{ movie.nationality }}</td>
                         <td>{{ movie.category }}</td>
                         <td>{{ movie.directorFirstName }} {{ movie.directorName }}</td>
-                        <td><a href="{{ path('admin_film_edit', {'id': movie.id }) }}" class="btn btn-success">Modifier</a></td>
+                        <td>
+                            <div class="col-md-6">
+                                <a href="{{ path('admin_film_edit', {'id': movie.id }) }}" class="btn btn-success">Modifier</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{{ path('admin_film_delete', {'id': movie.id}) }}" class="btn btn-danger glyphicon glyphicon-trash"></a>
+                            </div>
+                        </td>
                     </tr>
                 {% endfor %}
             </table>

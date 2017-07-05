@@ -26,7 +26,7 @@ $(document).ready(function() {
     function addActor($container) {
 
         var template = $container.attr('data-prototype')
-            .replace(/__name__label__/g, 'Catégorie n°' + (index+1))
+            .replace(/__name__label__/g, 'Acteur n°' + (index+1))
             .replace(/__name__/g,        index)
         ;
 
