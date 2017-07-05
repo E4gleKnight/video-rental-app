@@ -79,6 +79,18 @@ class Movie
      */
     private $rentals;
 
+    /**
+     * @var CustomerReview
+     * @ORM\OneToMany(targetEntity="ModelBundle\Entity\CustomerReview", mappedBy="movie")
+     */
+    private $customerReviews;
+
+    /**
+     * @var PressReview
+     * @ORM\OneToMany(targetEntity="ModelBundle\Entity\PressReview", mappedBy="movie")
+     */
+    private $pressReviews;
+
 
     /**
      * Get id
@@ -332,5 +344,73 @@ class Movie
     public function getRentals()
     {
         return $this->rentals;
+    }
+
+    /**
+     * Add customerReview
+     *
+     * @param \ModelBundle\Entity\CustomerReview $customerReview
+     *
+     * @return Movie
+     */
+    public function addCustomerReview(\ModelBundle\Entity\CustomerReview $customerReview)
+    {
+        $this->customerReviews[] = $customerReview;
+
+        return $this;
+    }
+
+    /**
+     * Remove customerReview
+     *
+     * @param \ModelBundle\Entity\CustomerReview $customerReview
+     */
+    public function removeCustomerReview(\ModelBundle\Entity\CustomerReview $customerReview)
+    {
+        $this->customerReviews->removeElement($customerReview);
+    }
+
+    /**
+     * Get customerReviews
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCustomerReviews()
+    {
+        return $this->customerReviews;
+    }
+
+    /**
+     * Add pressReview
+     *
+     * @param \ModelBundle\Entity\PressReview $pressReview
+     *
+     * @return Movie
+     */
+    public function addPressReview(\ModelBundle\Entity\PressReview $pressReview)
+    {
+        $this->pressReviews[] = $pressReview;
+
+        return $this;
+    }
+
+    /**
+     * Remove pressReview
+     *
+     * @param \ModelBundle\Entity\PressReview $pressReview
+     */
+    public function removePressReview(\ModelBundle\Entity\PressReview $pressReview)
+    {
+        $this->pressReviews->removeElement($pressReview);
+    }
+
+    /**
+     * Get pressReviews
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPressReviews()
+    {
+        return $this->pressReviews;
     }
 }

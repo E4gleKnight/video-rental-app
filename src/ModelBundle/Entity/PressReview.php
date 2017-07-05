@@ -49,6 +49,12 @@ class PressReview
      */
     private $pressTitle;
 
+    /**
+     * @var Movie
+     * @ORM\ManyToOne(targetEntity="ModelBundle\Entity\Movie", inversedBy="pressReviews")
+     */
+    private $movie;
+
 
     /**
      * Get id
@@ -154,5 +160,29 @@ class PressReview
     public function getPressTitle()
     {
         return $this->pressTitle;
+    }
+
+    /**
+     * Set movie
+     *
+     * @param \ModelBundle\Entity\Movie $movie
+     *
+     * @return PressReview
+     */
+    public function setMovie(\ModelBundle\Entity\Movie $movie = null)
+    {
+        $this->movie = $movie;
+
+        return $this;
+    }
+
+    /**
+     * Get movie
+     *
+     * @return \ModelBundle\Entity\Movie
+     */
+    public function getMovie()
+    {
+        return $this->movie;
     }
 }

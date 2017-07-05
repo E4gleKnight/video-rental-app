@@ -48,6 +48,12 @@ class CustomerReview
      */
     private $customer;
 
+    /**
+     * @var Movie
+     * @ORM\ManyToOne(targetEntity="ModelBundle\Entity\Movie", inversedBy="customerReviews")
+     */
+    private $movie;
+
 
     /**
      * Get id
@@ -153,5 +159,29 @@ class CustomerReview
     public function getCustomer()
     {
         return $this->customer;
+    }
+
+    /**
+     * Set movie
+     *
+     * @param \ModelBundle\Entity\Movie $movie
+     *
+     * @return CustomerReview
+     */
+    public function setMovie(\ModelBundle\Entity\Movie $movie = null)
+    {
+        $this->movie = $movie;
+
+        return $this;
+    }
+
+    /**
+     * Get movie
+     *
+     * @return \ModelBundle\Entity\Movie
+     */
+    public function getMovie()
+    {
+        return $this->movie;
     }
 }
