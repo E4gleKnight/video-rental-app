@@ -88,7 +88,8 @@ class MovieType extends AbstractType
                             "label" => " ",
                             "choice_label" => function($actor) {
                                 return $actor->getFirstName()." ".$actor->getName();
-                            }
+                            },
+                            "placeholder" => "Choisissez un acteur"
                         ],
                     "allow_add" => true,
                     "allow_delete" => true,

@@ -67,7 +67,8 @@ class ArtistType extends AbstractType
                         [
                             "class" => "ModelBundle\Entity\Movie",
                             "label" => " ",
-                            "choice_label" => "title"
+                            "choice_label" => "title",
+                            "placeholder" => "Choisissez un film"
                         ],
                     "allow_add" => true,
                     "allow_delete" => true,
