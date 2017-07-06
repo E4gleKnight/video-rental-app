@@ -71,7 +71,7 @@ class ArtistType extends AbstractType
                         ],
                     "allow_add" => true,
                     "allow_delete" => true,
-                    "label" => "Acteurs"
+                    "label" => "Films"
                 ])
             ->add(
                 'submit',
