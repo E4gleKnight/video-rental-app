@@ -225,10 +225,6 @@ class Rental
      * @return bool
      */
     public function isLate(){
-        if($this->dueDate < new \DateTime('today') ) {
-            return true;
-        }else{
-            return false;
-        }
+        return $this->dueDate < new \DateTime('today');
     }
 }
