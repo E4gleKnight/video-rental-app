@@ -10,4 +10,14 @@ namespace ModelBundle\Repository;
  */
 class rentalRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAllLate(){
+        $qb=$this->createQueryBuilder('r')
+            ->select('c.firstName, c.name, m.title, r.dueDate')
+            ->innerJoin('r.customer','c')
+            ->innerJoin('r.movie','m')
+            ->where('r.dueDate < :now')
+            ->setParameter('now', new \DateTime() );
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }

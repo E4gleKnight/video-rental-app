@@ -1,13 +1,15 @@
 {% extends 'admin.html.twig' %}
 
 {% block body %}
+
+{#{{ dump(lateList) }} #}
     <h1>Liste des utilisateurs devant rendre des films </h1>
     <ul>
         {% for rental in lateList %}
-        <li>{{ rental }} </li>
+        <li>{{ rental.firstName }} {{ rental.name }} devait rendre {{ rental.title }} le {{ rental.dueDate|date('d/m/Y') }} </li>
         {% endfor %}
     </ul>
-    
+
 
 {% endblock %}
 
