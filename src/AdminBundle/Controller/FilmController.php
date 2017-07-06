@@ -18,16 +18,27 @@ use Symfony\Component\HttpFoundation\Request;
 class FilmController extends Controller
 {
     /**
-     * @Route("/", name="admin_film_home")
+     * @Route("/{page}", name="admin_film_home")
+     * @param $page
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function indexAction($page = 1)
     {
         $repo = $this->getDoctrine()->getRepository('ModelBundle:Movie');
 
-        $movies = $repo->getAllMovies();
+        $movies = $repo->getAllMoviesWithPagination($page);
+        //$movies = $repo->getAllMovies($page);
+
+        $pagination = array(
+            'page' => $page,
+            'nbPages' => ceil(count($movies) / 10),
+            'nomRoute' => 'admin_film_home',
+            'paramsRoute' => array()
+        );
 
         return $this->render('AdminBundle:Film:index.html.twig', [
-            "movies" => $movies
+            "movies" => $movies,
+            "pagination" => $pagination
         ]);
     }
 

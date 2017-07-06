@@ -1,6 +1,8 @@
 <?php
 
 namespace ModelBundle\Repository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * MovieRepository
@@ -10,7 +12,36 @@ namespace ModelBundle\Repository;
  */
 class MovieRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getAllMovies() {
+    public function getAllMoviesWithPagination($page) {
+        $qb = $this->createQueryBuilder('m')
+            ->select(['m','m.id', 'm.title', 'm.duration', 'm.releaseDate',
+                'l.language',
+                'n.nationality',
+                'c.category',
+                'd.name as directorName', 'd.firstName as directorFirstName'])
+            ->innerJoin('m.category', 'c')
+            ->innerJoin('m.director', 'd')
+            ->innerJoin('m.language', 'l')
+            ->innerJoin('m.nationality', 'n')
+            ->orderBy('m.title');
+
+        $query = $qb->getQuery();
+
+        $maxResults = 10;
+
+        $firstResult = ($page - 1) * $maxResults;
+        $query->setFirstResult($firstResult)->setMaxResults($maxResults);
+
+        $paginator = new Paginator($query);
+
+        if (($paginator->count() <= $firstResult) && $page != 1) {
+            throw new NotFoundHttpException("La page demandée n'existe pas");
+        }
+
+        return $paginator;
+    }
+
+    public function getAllMovies($page) {
         $qb = $this->createQueryBuilder('m')
             ->select(['m.id', 'm.title', 'm.duration', 'm.releaseDate',
                 'l.language',
@@ -21,8 +52,10 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             ->innerJoin('m.director', 'd')
             ->innerJoin('m.language', 'l')
             ->innerJoin('m.nationality', 'n')
-            ->getQuery();
+            ->orderBy('m.title');
 
-        return $qb->getArrayResult();
+        $query = $qb->getQuery();
+
+        return $query->getResult();
     }
 }
