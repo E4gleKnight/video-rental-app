@@ -2,7 +2,20 @@
 
 {% block body %}
 
-
+    <div class="container">
+        <h2>{{ movie.title }}</h2>
+        <h3>Réalisé par {{ director.firstName }} {{ director.name }} en {{ movie.releaseDate | date('Y') }}</h3>
+        <p>Nationalité : {{ movie.nationality.nationality }}</p>
+        <p>Catégorie : {{ movie.category.category }}</p>
+        <p>Langue : {{ movie.language.language }}</p>
+        <p>Durée du film : {{ movie.duration }} min</p>
+        <p>Acteurs :</p>
+            <ul>
+                {% for actor in artistList %}
+                    <li>{{ actor.firstName }} {{ actor.Name }}</li>
+                {% endfor %}
+            </ul>
+    </div>
 
 {% endblock %}
 
