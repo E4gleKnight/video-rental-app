@@ -14,7 +14,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 {
     public function getAllMoviesForArtistId(Movie $movie){
 
-        $actorList = $this->getActorsIdFRomMovie($movie);
+        $actorList = $this->getActorsIdFromMovie($movie);
 
 
         $qb = $this->createQueryBuilder('m')
@@ -35,7 +35,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
      * @param Movie $movie
      * @return array
      */
-    private function getActorsIdFRomMovie(Movie $movie)
+    private function getActorsIdFromMovie(Movie $movie)
     {
         $actorsList = array_map(
             function ($item) {
@@ -45,5 +45,20 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         );
 
         return $actorsList;
+    }
+
+    public function getMoviesByDirector(Movie $movie){
+        $qb = $this->createQueryBuilder('m')
+            ->select('m')
+            ->innerJoin('m.actors','a')
+            ->where('m.id != :movieId')
+            ->andWhere('m.director = :movieDirector');
+
+
+        $query = $qb->getQuery()
+            ->setParameter('movieId', $movie->getId())
+            ->setParameter('movieDirector', $movie->getDirector());
+
+        return $query->getResult();
     }
 }

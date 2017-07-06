@@ -2,26 +2,30 @@
 
 {% block body %}
 
+
+
 {% endblock %}
 
 {% block aside %}
 
-
-    <h2>Liste des films par acteur</h2>
+    <h3>Liste des autres films avec ces acteurs</h3>
     <ul>
-        {% for artist in artistList %}
-            <li>{{ artist.firstName }} {{ artist.name }}
-                <ul>
-                    {% for movie in moviesList if (movie.actors == artist.name) %}
-                        <li>
-                            {{ movie.title }}
-                        </li>
-                    {% endfor %}
-                </ul>
+        {% for movie in moviesList %}
+            <li>
+                <a href="/details/{{ movie.id }}">{{ movie.title }} avec :</a>
+                {% for artist in artistList %}<br>{{ artist.firstName }} {{ artist.name }}{% endfor %}
             </li>
         {% endfor %}
     </ul>
+    <hr>
 
-    <h2>Liste des films par réalisateur</h2>
+    <h3>Liste des autres films du réalisateur {{ director.firstName }} {{ director.name }}</h3>
+    <ul>
+        {% for movie in movieslistDirector %}
+            <li>
+                <a href="/details/{{ movie.id }}">{{ movie.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}

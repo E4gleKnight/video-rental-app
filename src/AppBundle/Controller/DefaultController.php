@@ -48,12 +48,16 @@ class DefaultController extends Controller
 
         $moviesList = $movieRepo->getAllMoviesForArtistId($movie);
 
+        $moviesListDirector = $movieRepo->getMoviesByDirector($movie);
+
 
         return $this->render("AppBundle:Default:details.html.twig",
             [
                 "movie" => $movie,
                 "artistList" => $movie->getActors(),
-                "moviesList" => $moviesList
+                "moviesList" => $moviesList,
+                "director" => $movie->getDirector(),
+                "movieslistDirector" => $moviesListDirector
 
             ]);
     }
