@@ -27,7 +27,6 @@ class FilmController extends Controller
         $repo = $this->getDoctrine()->getRepository('ModelBundle:Movie');
 
         $movies = $repo->getAllMoviesWithPagination($page);
-        //$movies = $repo->getAllMovies($page);
 
         $pagination = array(
             'page' => $page,
