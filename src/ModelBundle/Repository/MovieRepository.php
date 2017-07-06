@@ -1,6 +1,8 @@
 <?php
 
 namespace ModelBundle\Repository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use ModelBundle\Entity\Movie;
 
@@ -12,9 +14,9 @@ use ModelBundle\Entity\Movie;
  */
 class MovieRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getAllMovies() {
+    public function getAllMoviesWithPagination($page = 1) {
         $qb = $this->createQueryBuilder('m')
-            ->select(['m.id', 'm.title', 'm.duration', 'm.releaseDate',
+            ->select(['m','m.id', 'm.title', 'm.duration', 'm.releaseDate',
                 'l.language',
                 'n.nationality',
                 'c.category',
@@ -23,9 +25,22 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             ->innerJoin('m.director', 'd')
             ->innerJoin('m.language', 'l')
             ->innerJoin('m.nationality', 'n')
-            ->getQuery();
+            ->orderBy('m.title');
 
-        return $qb->getArrayResult();
+        $query = $qb->getQuery();
+
+        $maxResults = 10;
+
+        $firstResult = ($page - 1) * $maxResults;
+        $query->setFirstResult($firstResult)->setMaxResults($maxResults);
+
+        $paginator = new Paginator($query);
+
+        if (($paginator->count() <= $firstResult) && $page != 1) {
+            throw new NotFoundHttpException("La page demandée n'existe pas");
+        }
+
+        return $paginator;
     }
     public function getAllMoviesForArtistId(Movie $movie){
 

@@ -11,7 +11,7 @@ $(document).ready(function() {
     var indexMovie = $containerMovie.find(':input').length;
 
     $('#add_movie').click(function(e) {
-        addActor($containerMovie);
+        addMovie($containerMovie);
 
         e.preventDefault(); // évite qu'un # apparaisse dans l'URL
         return false;
