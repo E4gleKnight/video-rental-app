@@ -45,7 +45,7 @@ class DefaultController extends Controller
     public function detailsAction(Movie $movie){
 
         //Conversion date en français
-        $moisFr = [
+        $monthFr = [
             "",
             "janvier",
             "février",
@@ -61,23 +61,23 @@ class DefaultController extends Controller
             "décembre"
         ];
 
-        $dateSortie = $movie->getReleaseDate()->format('Y m d');
-        list($year,$month,$day)=explode(" ", $dateSortie);
-        $dateSortie = $day.' '.$moisFr[$month].' '.$year;
+        $dateReleased = $movie->getReleaseDate()->format('Y m d');
+        list($year,$month,$day)=explode(" ", $dateReleased);
+        $dateReleased = $day.' '.$monthFr[intval($month)].' '.$year;
 
-        //Conversion durée film de minutes en heures et minutes
-        $dureeFilm = $movie->getDuration();
-        $heures = intval($dureeFilm/60);
-        $minutes = $dureeFilm % 60;
+        //Conversion durée film de minutes en hours et minutes
+        $durationFilm = $movie->getDuration();
+        $hours = intval($durationFilm/60);
+        $minutes = $durationFilm % 60;
 
-        $dureeFilm= $heures.'h'.$minutes;
+        $durationFilm= $hours.'h'.$minutes;
 
 
         return $this->render("AppBundle:Default:details.html.twig",
             [
                 "movie" => $movie,
-                "dateSortie" => $dateSortie,
-                "dureeFilm" => $dureeFilm
+                "dateReleased" => $dateReleased,
+                "durationFilm" => $durationFilm
             ]
         );
     }
