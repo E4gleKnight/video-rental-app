@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class MovieRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getAllMoviesWithPagination($page) {
+    public function getAllMoviesWithPagination($page = 1) {
         $qb = $this->createQueryBuilder('m')
             ->select(['m','m.id', 'm.title', 'm.duration', 'm.releaseDate',
                 'l.language',

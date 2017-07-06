@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ActorController extends Controller
 {
     /**
-     * @Route("/{page}", name="admin_actor_home")
+     * @Route("/index/{page}", name="admin_actor_home")
      */
     public function indexAction($page = 1)
     {

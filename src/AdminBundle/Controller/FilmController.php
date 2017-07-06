@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 class FilmController extends Controller
 {
     /**
-     * @Route("/{page}", name="admin_film_home")
+     * @Route("/index/{page}", name="admin_film_home")
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
      */
