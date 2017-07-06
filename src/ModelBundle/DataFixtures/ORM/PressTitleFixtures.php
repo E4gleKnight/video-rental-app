@@ -8,6 +8,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use ModelBundle\Entity\Language;
+use ModelBundle\Entity\PressTitle;
 
 class PressTitleFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -22,8 +23,8 @@ class PressTitleFixtures extends AbstractFixture implements OrderedFixtureInterf
         $data = ["Les cahiers du cinema", "Le Figaro", "Télérama", "Les Inrockuptibles", "Libération"];
         $index = 0;
         foreach ($data as $item){
-            $entity = new Language();
-            $entity->setLanguage($item);
+            $entity = new PressTitle();
+            $entity->setName($item);
             $manager->persist($entity);
             $this->setReference("press_++$index", $entity);
         }
