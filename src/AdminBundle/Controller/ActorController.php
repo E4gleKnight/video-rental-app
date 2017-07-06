@@ -18,16 +18,24 @@ use Symfony\Component\HttpFoundation\Request;
 class ActorController extends Controller
 {
     /**
-     * @Route("/", name="admin_actor_home")
+     * @Route("/{page}", name="admin_actor_home")
      */
-    public function indexAction()
+    public function indexAction($page = 1)
     {
         $repo = $this->getDoctrine()->getRepository('ModelBundle:Artist');
 
-        $artists = $repo->findAll();
+        $artists = $repo->getAllArtistAndPaginate($page);
+
+        $pagination = array(
+            'page' => $page,
+            'nbPages' => ceil(count($artists) / 10),
+            'nomRoute' => 'admin_actor_home',
+            'paramsRoute' => array()
+        );
 
         return $this->render('AdminBundle:Actor:index.html.twig', [
-            "artists" => $artists
+            "artists" => $artists,
+            "pagination" => $pagination
         ]);
     }
 

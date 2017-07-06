@@ -1,6 +1,8 @@
 <?php
 
 namespace ModelBundle\Repository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * ArtistRepository
@@ -10,4 +12,25 @@ namespace ModelBundle\Repository;
  */
 class ArtistRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAllArtistAndPaginate($page) {
+        $qb = $this->createQueryBuilder("a")
+            ->select(['a', 'n'])
+            ->innerJoin('a.nationality', 'n')
+            ->orderBy('a.name');
+        $query = $qb->getQuery();
+
+        $maxResults = 10;
+
+        $firstResult = ($page - 1) * $maxResults;
+        $query->setFirstResult($firstResult)->setMaxResults($maxResults);
+
+        $paginator = new Paginator($query);
+
+        if (($paginator->count() <= $firstResult) && $page != 1) {
+            throw new NotFoundHttpException("La page demandée n'existe pas");
+        }
+
+        return $paginator;
+
+    }
 }
