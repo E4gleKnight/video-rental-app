@@ -2,9 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use ModelBundle\Entity\Artist;
+use ModelBundle\Entity\Movie;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use ModelBundle\Entity\Customer;
-use ModelBundle\Entity\Movie;
 use ModelBundle\Form\CustomerType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -36,8 +37,7 @@ class DefaultController extends Controller
      *
      * @Route("/recherche" , name="search_page")
      */
-    public function searchAction()
-    {
+    public function searchAction(){
         return $this->render("AppBundle:Default:search.html.twig", []);
     }
 
@@ -46,9 +46,24 @@ class DefaultController extends Controller
      *
      * @Route("/details/{id}", name="details_page")
      */
-    public function detailsAction()
-    {
-        return $this->render("AppBundle:Default:details.html.twig", []);
+    public function detailsAction(Movie $movie){
+
+        $movieRepo = $this->getDoctrine()->getRepository('ModelBundle:Movie');
+
+        $moviesList = $movieRepo->getAllMoviesForArtistId($movie);
+
+        $moviesListDirector = $movieRepo->getMoviesByDirector($movie);
+
+
+        return $this->render("AppBundle:Default:details.html.twig",
+            [
+                "movie" => $movie,
+                "artistList" => $movie->getActors(),
+                "moviesList" => $moviesList,
+                "director" => $movie->getDirector(),
+                "movieslistDirector" => $moviesListDirector
+
+            ]);
     }
 
     /**
@@ -92,8 +107,7 @@ class DefaultController extends Controller
      * Identification des clients
      * @Route("/login", name="customer_login_page")
      */
-    public function customerLoginAction()
-    {
+    public function customerLoginAction(){
         $loginRoute = "customer_login_check";
         $authenticationUtils = $this->get('security.authentication_utils');
 
@@ -108,8 +122,7 @@ class DefaultController extends Controller
      * Identification des clients
      * @Route("/login-admin", name="admin_login_page")
      */
-    public function AdminLoginAction()
-    {
+    public function AdminLoginAction(){
         $loginRoute = "admin_login_check";
         $authenticationUtils = $this->get('security.authentication_utils');
 
@@ -124,8 +137,7 @@ class DefaultController extends Controller
      * Identification des clients
      * @Route("/liste-par-categorie/{id}", name="film-by-category")
      */
-    public function byCategoryAction()
-    {
+    public function byCategoryAction(){
         return $this->render("AppBundle:Default:search-result.html.twig", []);
     }
 }

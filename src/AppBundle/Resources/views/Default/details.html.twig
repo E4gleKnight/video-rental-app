@@ -2,5 +2,43 @@
 
 {% block body %}
 
+    <div class="container">
+        <h2>{{ movie.title }}</h2>
+        <h3>Réalisé par {{ director.firstName }} {{ director.name }} en {{ movie.releaseDate | date('Y') }}</h3>
+        <p>Nationalité : {{ movie.nationality.nationality }}</p>
+        <p>Catégorie : {{ movie.category.category }}</p>
+        <p>Langue : {{ movie.language.language }}</p>
+        <p>Durée du film : {{ movie.duration }} min</p>
+        <p>Acteurs :</p>
+            <ul>
+                {% for actor in artistList %}
+                    <li>{{ actor.firstName }} {{ actor.Name }}</li>
+                {% endfor %}
+            </ul>
+    </div>
+
 {% endblock %}
 
+{% block aside %}
+
+    <h3>Liste des autres films avec ces acteurs</h3>
+    <ul>
+        {% for movie in moviesList %}
+            <li>
+                <a href="/details/{{ movie.id }}">{{ movie.title }} avec :</a>
+                {% for artist in artistList %}<br>{{ artist.firstName }} {{ artist.name }}{% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
+    <hr>
+
+    <h3>Liste des autres films du réalisateur {{ director.firstName }} {{ director.name }}</h3>
+    <ul>
+        {% for movie in movieslistDirector %}
+            <li>
+                <a href="/details/{{ movie.id }}">{{ movie.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
